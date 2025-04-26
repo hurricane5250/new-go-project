@@ -1,0 +1,24 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - DB_DSN=root:password@tcp(db:3307)/go_framework?charset=utf8mb4&parseTime=True&loc=Local
+    volumes:
+      - .:/go/src/app
+      - /home/wujunfeng/go-project:/app/data
+  db:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=go_framework
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+volumes:
+  mysql-data:
